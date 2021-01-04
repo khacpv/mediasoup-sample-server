@@ -15,7 +15,7 @@ const httpsServer = https.createServer(HTTPS_OPTIONS);
 const wss = new WebSocket.Server({
   maxPayload: 200000000,
   server: httpsServer
-}, () => console.log('WebSocket.Server started at port 8080'));
+}, () => console.log('WebSocket.Server started at port 4000'));
 
 const noop = () => {};
 
