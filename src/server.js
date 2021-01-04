@@ -6,8 +6,8 @@ const { handleSocket } = require('./socket');
 const { initializeWorkers } = require('./worker');
 
 const HTTPS_OPTIONS = Object.freeze({
-  cert: fs.readFileSync('./ssl/fullchain.pem'),
-  key: fs.readFileSync('./ssl/privkey.pem')
+  cert: fs.readFileSync('./ssl/server.crt'),
+  key: fs.readFileSync('./ssl/server.key')
 });
 
 const httpsServer = https.createServer(HTTPS_OPTIONS);
@@ -15,7 +15,7 @@ const httpsServer = https.createServer(HTTPS_OPTIONS);
 const wss = new WebSocket.Server({
   maxPayload: 200000000,
   server: httpsServer
-}, () => console.log('WebSocket.Server started at port 4000'));
+}, () => console.log('WebSocket.Server started at port 8080'));
 
 const noop = () => {};
 
