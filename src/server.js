@@ -1,25 +1,31 @@
 const fs = require('fs');
-const https = require('https');
+// const https = require('https');
+const express = require('express');
 const WebSocket = require('ws');
 
 const { handleSocket } = require('./socket');
 const { initializeWorkers } = require('./worker');
 
-const HTTPS_OPTIONS = Object.freeze({
-  cert: fs.readFileSync('./ssl/fullchain.pem'),
-  key: fs.readFileSync('./ssl/privkey.pem')
-});
+// const HTTPS_OPTIONS = Object.freeze({
+//   cert: fs.readFileSync('./ssl/fullchain.pem'),
+//   key: fs.readFileSync('./ssl/privkey.pem')
+// });
 
-const httpsServer = https.createServer(HTTPS_OPTIONS);
+// const httpsServer = https.createServer(HTTPS_OPTIONS);
+const app = express();
 
-const wss = new WebSocket.Server({
-  maxPayload: 200000000,
-  server: httpsServer
-}, () => console.log('WebSocket.Server started at port 8080'));
+const wss = new WebSocket.Server(
+  {
+    maxPayload: 200000000,
+    noServer: true,
+    // server: httpsServer
+  },
+  () => console.log('WebSocket.Server started at port 8080')
+);
 
 const noop = () => {};
 
-function heartbeat () {
+function heartbeat() {
   this.isAlive = true;
 }
 
@@ -27,15 +33,24 @@ function heartbeat () {
   try {
     await initializeWorkers();
 
-    httpsServer.listen(8883, () =>
-      console.log('websocket SSL server running on port 443')
-    );
+    // httpsServer.listen(8883, () =>
+    //   console.log('websocket SSL server running on port 443')
+    // );
+    app.use(express.static(__dirname + '/public/dist'));
+    const server = app.listen(3000, () => {
+      console.log('websocket SSL server running on port 3000');
+    });
+    server.on('upgrade', (request, socket, head) => {
+      wsServer.handleUpgrade(request, socket, head, (socket) => {
+        wsServer.emit('connection', socket, request);
+      });
+    });
   } catch (error) {
     console.error('Failed to initialize workers [error:%o]', error);
   }
 })();
 
-wss.on('connection', socket => {
+wss.on('connection', (socket) => {
   socket.isAlive = true;
   socket.on('pong', heartbeat);
 
@@ -50,7 +65,9 @@ wss.on('connection', socket => {
   };
 
   socket.emitToSocket = (socketId, message) => {
-    const client = Array.from(wss.clients).find(client => client.id === socketId);
+    const client = Array.from(wss.clients).find(
+      (client) => client.id === socketId
+    );
 
     if (!client) {
       console.error('Failed to find client with id %s', socketId);
@@ -64,16 +81,3 @@ wss.on('connection', socket => {
 
   handleSocket(socket);
 });
-
-const interval = setInterval(() => {
-  /*
-  for (const client of wss.clients) {
-    if (!client.isAlive) {
-      return client.terminate();
-    }
-
-    client.isAlive = false;
-    client.ping(noop);
-  }
-  */
-}, 4000);
