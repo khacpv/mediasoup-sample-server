@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "express": "^4.17.1",
     "mediasoup": "^3.5.5",
     "mediasoup-client": "^3.5.5",
     "uuid": "^7.0.2",
