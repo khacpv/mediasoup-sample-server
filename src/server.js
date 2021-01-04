@@ -20,7 +20,7 @@ const wss = new WebSocket.Server(
     // noServer: true,
     server: httpsServer
   },
-  () => console.log('WebSocket.Server started at port 8080')
+  () => console.log('WebSocket.Server started')
 );
 
 const noop = () => {};
@@ -33,8 +33,8 @@ function heartbeat() {
   try {
     await initializeWorkers();
 
-    httpsServer.listen(8883, () =>
-      console.log('websocket SSL server running on port 443')
+    httpsServer.listen(4443, () =>
+      console.log('websocket SSL server running on port 4443')
     );
 
     // const server = app.listen(3000, () => {
