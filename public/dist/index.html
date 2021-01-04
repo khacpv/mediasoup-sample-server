@@ -35,7 +35,7 @@
 
         try {
           console.log('peer', peer);
-          await peer.initialize('wss://45.76.52.110');
+          await peer.initialize('wss://45.76.52.110:443');
           await peer.join();
           await peer.createSendTransport();
           await peer.createRecvTransport();
