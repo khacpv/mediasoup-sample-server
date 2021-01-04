@@ -35,7 +35,7 @@
 
         try {
           console.log('peer', peer);
-          await peer.initialize('wss://mediasoup.oicsoft.com:443');
+          await peer.initialize('wss://mediasoup.oicsoft.com:4443');
           await peer.join();
           await peer.createSendTransport();
           await peer.createRecvTransport();
