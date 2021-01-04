@@ -41,7 +41,7 @@ function heartbeat() {
       console.log('websocket SSL server running on port 3000');
     });
     console.log('__dirname', __dirname);
-    server.use(express.static(__dirname + '/public/dist'));
+    server.use(express.static(__dirname + '/../public/dist'));
     server.on('upgrade', (request, socket, head) => {
       wsServer.handleUpgrade(request, socket, head, (socket) => {
         wsServer.emit('connection', socket, request);
