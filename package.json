@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node src/server.js",
     "webpack": "webpack --config public/webpack.config.js",
     "public-dev": "webpack-dev-server --config public/webpack.config.js",
     "test": "jest --coverage"
