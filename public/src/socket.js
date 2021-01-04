@@ -31,7 +31,7 @@ module.exports = class Socket extends EventEmitter {
 
   send (message) {
     if (!this.connected) {
-      throw new Error('Invalid state');
+      throw new Error('Invalid state 34');
     }
 
     this._socket.send(JSON.stringify(message));
@@ -40,7 +40,7 @@ module.exports = class Socket extends EventEmitter {
   sendWithAck (message) {
     console.log('sendWithAck() [message:%o]', message);
     if (!this.connected) {
-      throw new Error('Invalid state');
+      throw new Error('Invalid state 43');
     }
 
     const { action } = message;

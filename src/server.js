@@ -6,8 +6,8 @@ const { handleSocket } = require('./socket');
 const { initializeWorkers } = require('./worker');
 
 const HTTPS_OPTIONS = Object.freeze({
-  cert: fs.readFileSync('./ssl/server.crt'),
-  key: fs.readFileSync('./ssl/server.key')
+  cert: fs.readFileSync('./ssl/fullchain.pem'),
+  key: fs.readFileSync('./ssl/privkey.pem')
 });
 
 const httpsServer = https.createServer(HTTPS_OPTIONS);
