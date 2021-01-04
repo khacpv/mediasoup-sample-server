@@ -36,10 +36,12 @@ function heartbeat() {
     // httpsServer.listen(8883, () =>
     //   console.log('websocket SSL server running on port 443')
     // );
-    app.use(express.static(__dirname + '/public/dist'));
+
     const server = app.listen(3000, () => {
       console.log('websocket SSL server running on port 3000');
     });
+    console.log('__dirname', __dirname);
+    server.use(express.static(__dirname + '/public/dist'));
     server.on('upgrade', (request, socket, head) => {
       wsServer.handleUpgrade(request, socket, head, (socket) => {
         wsServer.emit('connection', socket, request);
