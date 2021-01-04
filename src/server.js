@@ -76,4 +76,4 @@ const interval = setInterval(() => {
     client.ping(noop);
   }
   */
-}, 3000);
+}, 4000);
