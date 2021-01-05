@@ -33,8 +33,8 @@ function heartbeat() {
   try {
     await initializeWorkers();
 
-    httpsServer.listen(4443, () =>
-      console.log('websocket SSL server running on port 4443')
+    httpsServer.listen(8883, () =>
+      console.log('websocket SSL server running on port 8883')
     );
 
     // const server = app.listen(3000, () => {
